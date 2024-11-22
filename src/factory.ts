@@ -47,13 +47,6 @@ const flatConfigProps = [
   'settings',
 ] satisfies (keyof TypedFlatConfigItem)[]
 
-const VuePackages = [
-  'vue',
-  'nuxt',
-  'vitepress',
-  '@slidev/cli',
-]
-
 export const defaultPluginRenaming = {
   '@eslint-react': 'react',
   '@eslint-react/dom': 'react-dom',
@@ -97,7 +90,7 @@ export function adrianub(
     typescript: enableTypeScript = isPackageExists('typescript'),
     unicorn: enableUnicorn = true,
     unocss: enableUnoCSS = false,
-    vue: enableVue = VuePackages.some(i => isPackageExists(i)),
+    vue: enableVue = false,
   } = options
 
   let isInEditor = options.isInEditor
