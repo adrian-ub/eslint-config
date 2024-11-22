@@ -1,7 +1,7 @@
 {
   "name": "@adrianub/eslint-config",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "packageManager": "pnpm@9.13.2",
   "description": "Adrián UB's ESLint config",
   "author": "Adrián UB (https://github.com/adrian-ub/)",
