@@ -44,7 +44,7 @@ export interface VendoredPrettierOptionsRequired {
    */
   bracketSpacing: boolean
   /**
-   * Put the `>` of a multi-line HTML (HTML, XML, JSX, Vue, Angular) element at the end of the last line instead of being
+   * Put the `>` of a multi-line HTML (HTML, XML, JSX, Angular) element at the end of the last line instead of being
    * alone on the next line (does not apply to self closing elements).
    */
   bracketSameLine: boolean
@@ -93,12 +93,7 @@ export interface VendoredPrettierOptionsRequired {
    */
   quoteProps: 'as-needed' | 'consistent' | 'preserve'
   /**
-   * Whether or not to indent the code inside <script> and <style> tags in Vue files.
-   * @default false
-   */
-  vueIndentScriptAndStyle: boolean
-  /**
-   * Enforce single attribute per line in HTML, XML, Vue and JSX.
+   * Enforce single attribute per line in HTML, XML and JSX.
    * @default false
    */
   singleAttributePerLine: boolean
@@ -147,11 +142,10 @@ export type BuiltInParserName =
   | 'meriyah'
   | 'scss'
   | 'typescript'
-  | 'vue'
   | 'xml'
   | 'yaml'
 
-export type ExternalParserName = 'slidev' | 'astro'
+export type ExternalParserName = 'astro'
 
 // This utility is here to handle the case where you have an explicit union
 // between string literals and the generic string type. It would normally
