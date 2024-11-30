@@ -14,22 +14,17 @@ import {
   javascript,
   jsdoc,
   jsonc,
-  jsx,
   markdown,
   node,
   perfectionist,
-  react,
-  solid,
   sortPackageJson,
   sortTsconfig,
   stylistic,
-  svelte,
   test,
   toml,
   typescript,
   unicorn,
   unocss,
-  vue,
   yaml,
 } from './configs'
 import { formatters } from './configs/formatters'
@@ -83,14 +78,10 @@ export function adrianub(
     componentExts = [],
     gitignore: enableGitignore = true,
     jsx: enableJsx = true,
-    react: enableReact = false,
     regexp: enableRegexp = true,
-    solid: enableSolid = false,
-    svelte: enableSvelte = false,
     typescript: enableTypeScript = isPackageExists('typescript'),
     unicorn: enableUnicorn = true,
     unocss: enableUnoCSS = false,
-    vue: enableVue = false,
   } = options
 
   let isInEditor = options.isInEditor
@@ -128,7 +119,6 @@ export function adrianub(
   }
 
   const typescriptOptions = resolveSubOptions(options, 'typescript')
-  const tsconfigPath = 'tsconfigPath' in typescriptOptions ? typescriptOptions.tsconfigPath : undefined
 
   // Base configs
   configs.push(
@@ -153,14 +143,6 @@ export function adrianub(
 
   if (enableUnicorn) {
     configs.push(unicorn(enableUnicorn === true ? {} : enableUnicorn))
-  }
-
-  if (enableVue) {
-    componentExts.push('vue')
-  }
-
-  if (enableJsx) {
-    configs.push(jsx())
   }
 
   if (enableTypeScript) {
@@ -188,39 +170,6 @@ export function adrianub(
     configs.push(test({
       isInEditor,
       overrides: getOverrides(options, 'test'),
-    }))
-  }
-
-  if (enableVue) {
-    configs.push(vue({
-      ...resolveSubOptions(options, 'vue'),
-      overrides: getOverrides(options, 'vue'),
-      stylistic: stylisticOptions,
-      typescript: !!enableTypeScript,
-    }))
-  }
-
-  if (enableReact) {
-    configs.push(react({
-      ...typescriptOptions,
-      overrides: getOverrides(options, 'react'),
-      tsconfigPath,
-    }))
-  }
-
-  if (enableSolid) {
-    configs.push(solid({
-      overrides: getOverrides(options, 'solid'),
-      tsconfigPath,
-      typescript: !!enableTypeScript,
-    }))
-  }
-
-  if (enableSvelte) {
-    configs.push(svelte({
-      overrides: getOverrides(options, 'svelte'),
-      stylistic: stylisticOptions,
-      typescript: !!enableTypeScript,
     }))
   }
 

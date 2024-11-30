@@ -122,10 +122,7 @@ Add the following settings to your `.vscode/settings.json`:
   // Enable eslint for all supported languages
   "eslint.validate": [
     "javascript",
-    "javascriptreact",
     "typescript",
-    "typescriptreact",
-    "vue",
     "html",
     "markdown",
     "json",
@@ -136,7 +133,6 @@ Add the following settings to your `.vscode/settings.json`:
     "gql",
     "graphql",
     "astro",
-    "svelte",
     "css",
     "less",
     "scss",
@@ -180,9 +176,6 @@ export default adrianub({
 
   // TypeScript are autodetected, you can also explicitly enable them:
   typescript: true,
-
-  // Enable Vue support
-  vue: true,
 
   // Disable jsonc and yaml support
   jsonc: false,
@@ -244,7 +237,6 @@ import {
   toml,
   typescript,
   unicorn,
-  vue,
   yaml,
 } from '@adrianub/eslint-config'
 
@@ -258,7 +250,6 @@ export default combine(
   unicorn(),
   typescript(/* Options */),
   stylistic(),
-  vue(),
   jsonc(),
   yaml(),
   toml(),
@@ -316,7 +307,7 @@ export default adrianub()
 
 ### Rules Overrides
 
-Certain rules would only be enabled in specific files, for example, `ts/*` rules would only be enabled in `.ts` files and `vue/*` rules would only be enabled in `.vue` files. If you want to override the rules, you need to specify the file extension:
+Certain rules would only be enabled in specific files, for example, `ts/*` rules would only be enabled in `.ts`. If you want to override the rules, you need to specify the file extension:
 
 ```js
 // eslint.config.js
@@ -399,7 +390,7 @@ import adrianub from '@adrianub/eslint-config'
 export default adrianub({
   formatters: {
     /**
-     * Format CSS, LESS, SCSS files, also the `<style>` blocks in Vue
+     * Format CSS, LESS, SCSS files, also the `<style>` blocks
      * By default uses Prettier
      */
     css: true,

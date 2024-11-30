@@ -33,10 +33,7 @@ export const vscodeSettingsString = `
   // Enable eslint for all supported languages
   "eslint.validate": [
     "javascript",
-    "javascriptreact",
     "typescript",
-    "typescriptreact",
-    "vue",
     "html",
     "markdown",
     "json",
@@ -58,28 +55,8 @@ export const vscodeSettingsString = `
 
 export const frameworkOptions: PromItem<FrameworkOption>[] = [
   {
-    label: c.green('Vue'),
-    value: 'vue',
-  },
-  {
-    label: c.cyan('React'),
-    value: 'react',
-  },
-  {
-    label: c.red('Svelte'),
-    value: 'svelte',
-  },
-  {
     label: c.magenta('Astro'),
     value: 'astro',
-  },
-  {
-    label: c.cyan('Solid'),
-    value: 'solid',
-  },
-  {
-    label: c.blue('Slidev'),
-    value: 'slidev',
   },
 ]
 
@@ -104,20 +81,4 @@ export const dependenciesMap = {
     'eslint-plugin-astro',
     'astro-eslint-parser',
   ],
-  react: [
-    '@eslint-react/eslint-plugin',
-    'eslint-plugin-react-hooks',
-    'eslint-plugin-react-refresh',
-  ],
-  slidev: [
-    'prettier-plugin-slidev',
-  ],
-  solid: [
-    'eslint-plugin-solid',
-  ],
-  svelte: [
-    'eslint-plugin-svelte',
-    'svelte-eslint-parser',
-  ],
-  vue: [],
 } as const

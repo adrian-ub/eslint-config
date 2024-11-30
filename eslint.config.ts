@@ -5,10 +5,6 @@ import { adrianub } from './src'
 
 export default adrianub(
   {
-    vue: true,
-    react: true,
-    solid: true,
-    svelte: true,
     astro: true,
     typescript: true,
     formatters: true,
