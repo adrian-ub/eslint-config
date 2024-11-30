@@ -90,15 +90,6 @@ export interface OptionsFormatters {
   dprintOptions?: boolean
 
   /**
-   * Install the prettier plugin for handle Slidev markdown
-   *
-   * Only works when `markdown` is enabled with `prettier`.
-   */
-  slidev?: boolean | {
-    files?: string[]
-  }
-
-  /**
    * Enable formatting support for Astro.
    *
    * Currently only support Prettier.

@@ -177,9 +177,6 @@ importers:
       prettier-plugin-astro:
         specifier: ^0.14.1
         version: 0.14.1
-      prettier-plugin-slidev:
-        specifier: ^1.0.5
-        version: 1.0.5(prettier@3.3.2)
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -936,14 +933,6 @@ packages:
   '@sindresorhus/merge-streams@4.0.0':
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
-
-  '@slidev/parser@0.47.5':
-    resolution: {integrity: sha512-KvqOEhIFuMDu8CjAsehMNKlAnnmAn2TRHiEymc3CMadid05oWa5zgTxqEyMxUl2rjWpYs3A1yDiendZsGYs3HA==}
-    engines: {node: '>=18.0.0'}
-
-  '@slidev/types@0.47.5':
-    resolution: {integrity: sha512-X67V4cCgM0Sz50bP8GbVzmiL8DHC2IXvdKcsN7DlxHyf+/T4d9GveeGukwha5Fx3MuYeGZWKag7TFL2ZY4w54A==}
-    engines: {node: '>=18.0.0'}
 
   '@stylistic/eslint-plugin-migrate@2.10.1':
     resolution: {integrity: sha512-cQrShuqiEPdvHfhpTbViX93EBxY9Yx+PFHowZw75/1FwsKvQut1loDPQmY/lRfTyG08xYBdtciM0CNRHq/HPyw==}
@@ -2596,11 +2585,6 @@ packages:
     resolution: {integrity: sha512-RiBETaaP9veVstE4vUwSIcdATj6dKmXljouXc/DDNwBSPTp8FRkLGDSGFClKsAFeeg+13SB0Z1JZvbD76bigJw==}
     engines: {node: ^14.15.0 || >=16.0.0}
 
-  prettier-plugin-slidev@1.0.5:
-    resolution: {integrity: sha512-1xaKzOAX17QAcn1roUgQIAfeio3HPYYefCgzxh6Bzk+5rJJxq0I8HUhLrUyv9nCpIP6e9CDv/yDQSdEeqqRUuA==}
-    peerDependencies:
-      prettier: ^3.2.4
-
   prettier@3.3.2:
     resolution: {integrity: sha512-rAVeHYMcv8ATV5d508CFdn+8/pHPpXeIid1DdrPwXnaAdH7cqjVbpJaT5eq4yRAFU/lsbwYwSF/n5iNrdJHPQA==}
     engines: {node: '>=14'}
@@ -3694,13 +3678,6 @@ snapshots:
   '@sec-ant/readable-stream@0.4.1': {}
 
   '@sindresorhus/merge-streams@4.0.0': {}
-
-  '@slidev/parser@0.47.5':
-    dependencies:
-      '@slidev/types': 0.47.5
-      js-yaml: 4.1.0
-
-  '@slidev/types@0.47.5': {}
 
   '@stylistic/eslint-plugin-migrate@2.10.1(eslint@9.15.0(jiti@2.4.0))(typescript@5.6.3)':
     dependencies:
@@ -5700,11 +5677,6 @@ snapshots:
       '@astrojs/compiler': 2.9.1
       prettier: 3.3.2
       sass-formatter: 0.7.9
-
-  prettier-plugin-slidev@1.0.5(prettier@3.3.2):
-    dependencies:
-      '@slidev/parser': 0.47.5
-      prettier: 3.3.2
 
   prettier@3.3.2: {}
 
