@@ -5,7 +5,22 @@
 [![JSDocs][jsdocs-src]][jsdocs-href]
 [![License][license-src]][license-href]
 
-Adrián UB's ESLint config
+- Auto fix for formatting (aimed to be used standalone **without** Prettier)
+- Reasonable defaults, best practices, only one line of config
+- Designed to work with TypeScript, JSX, Vue, JSON, YAML, Toml, Markdown, etc. Out-of-box.
+- Opinionated, but [very customizable](#customization)
+- [ESLint Flat config](https://eslint.org/docs/latest/use/configure/configuration-files-new), compose easily!
+- Optional [React](#react), [Svelte](#svelte), [UnoCSS](#unocss), [Astro](#astro), [Solid](#solid) support
+- Optional [formatters](#formatters) support for formatting CSS, HTML, XML, etc.
+- **Style principle**: Minimal for reading, stable for diff, consistent
+  - Sorted imports, dangling commas
+  - Single quotes, no semi
+  - Using [ESLint Stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
+- Respects `.gitignore` by default
+- Requires ESLint v9.5.0+
+
+> [!NOTE]
+> This config extends from [antfu/eslint-config](https://github.com/antfu/eslint-config)
 
 ## Usage
 
@@ -122,7 +137,10 @@ Add the following settings to your `.vscode/settings.json`:
   // Enable eslint for all supported languages
   "eslint.validate": [
     "javascript",
+    "javascriptreact",
     "typescript",
+    "typescriptreact",
+    "vue",
     "html",
     "markdown",
     "json",
@@ -133,6 +151,7 @@ Add the following settings to your `.vscode/settings.json`:
     "gql",
     "graphql",
     "astro",
+    "svelte",
     "css",
     "less",
     "scss",
@@ -141,6 +160,88 @@ Add the following settings to your `.vscode/settings.json`:
   ]
 }
 ```
+
+</details>
+
+<details>
+<summary>🟩 Neovim Support</summary>
+
+<br>
+
+Update your configuration to use the following:
+
+```lua
+local customizations = {
+  { rule = 'style/*', severity = 'off', fixable = true },
+  { rule = 'format/*', severity = 'off', fixable = true },
+  { rule = '*-indent', severity = 'off', fixable = true },
+  { rule = '*-spacing', severity = 'off', fixable = true },
+  { rule = '*-spaces', severity = 'off', fixable = true },
+  { rule = '*-order', severity = 'off', fixable = true },
+  { rule = '*-dangle', severity = 'off', fixable = true },
+  { rule = '*-newline', severity = 'off', fixable = true },
+  { rule = '*quotes', severity = 'off', fixable = true },
+  { rule = '*semi', severity = 'off', fixable = true },
+}
+
+local lspconfig = require('lspconfig')
+-- Enable eslint for all supported languages
+lspconfig.eslint.setup(
+  {
+    filetypes = {
+      "javascript",
+      "javascriptreact",
+      "javascript.jsx",
+      "typescript",
+      "typescriptreact",
+      "typescript.tsx",
+      "vue",
+      "html",
+      "markdown",
+      "json",
+      "jsonc",
+      "yaml",
+      "toml",
+      "xml",
+      "gql",
+      "graphql",
+      "astro",
+      "svelte",
+      "css",
+      "less",
+      "scss",
+      "pcss",
+      "postcss"
+    },
+    settings = {
+      -- Silent the stylistic rules in you IDE, but still auto fix them
+      rulesCustomizations = customizations,
+    },
+  }
+)
+```
+
+### Neovim format on save
+
+There's few ways you can achieve format on save in neovim:
+
+- `nvim-lspconfig` has a `EslintFixAll` command predefined, you can create a autocmd to call this command after saving file.
+
+```lua
+lspconfig.eslint.setup({
+  --- ...
+  on_attach = function(client, bufnr)
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = bufnr,
+      command = "EslintFixAll",
+    })
+  end,
+})
+```
+
+- Use [conform.nvim](https://github.com/stevearc/conform.nvim).
+- Use [none-ls](https://github.com/nvimtools/none-ls.nvim)
+- Use [nvim-lint](https://github.com/mfussenegger/nvim-lint)
 
 </details>
 
@@ -267,16 +368,15 @@ Check out the [configs](https://github.com/adrian-ub/eslint-config/blob/main/src
 
 Since flat config requires us to explicitly provide the plugin names (instead of the mandatory convention from npm package name), we renamed some plugins to make the overall scope more consistent and easier to write.
 
-| New Prefix   | Original Prefix        | Source Plugin                                                                              |
-| ------------ | ---------------------- | ------------------------------------------------------------------------------------------ |
-| `import/*`   | `import-x/*`           | [eslint-plugin-import-x](https://github.com/un-es/eslint-plugin-import-x)                  |
-| `node/*`     | `n/*`                  | [eslint-plugin-n](https://github.com/eslint-community/eslint-plugin-n)                     |
-| `yaml/*`     | `yml/*`                | [eslint-plugin-yml](https://github.com/ota-meshi/eslint-plugin-yml)                        |
-| `ts/*`       | `@typescript-eslint/*` | [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) |
-| `style/*`    | `@stylistic/*`         | [@stylistic/eslint-plugin](https://github.com/eslint-stylistic/eslint-stylistic)           |
-| `test/*`     | `vitest/*`             | [@vitest/eslint-plugin](https://github.com/vitest-dev/eslint-plugin-vitest)                |
-| `test/*`     | `no-only-tests/*`      | [eslint-plugin-no-only-tests](https://github.com/levibuzolic/eslint-plugin-no-only-tests)  |
-| `adrianub/*` | `antfu/*`              | [eslint-plugin-antfu](https://github.com/antfu/eslint-plugin-antfu)                        |
+| New Prefix | Original Prefix        | Source Plugin                                                                              |
+| ---------- | ---------------------- | ------------------------------------------------------------------------------------------ |
+| `import/*` | `import-x/*`           | [eslint-plugin-import-x](https://github.com/un-es/eslint-plugin-import-x)                  |
+| `node/*`   | `n/*`                  | [eslint-plugin-n](https://github.com/eslint-community/eslint-plugin-n)                     |
+| `yaml/*`   | `yml/*`                | [eslint-plugin-yml](https://github.com/ota-meshi/eslint-plugin-yml)                        |
+| `ts/*`     | `@typescript-eslint/*` | [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) |
+| `style/*`  | `@stylistic/*`         | [@stylistic/eslint-plugin](https://github.com/eslint-stylistic/eslint-stylistic)           |
+| `test/*`   | `vitest/*`             | [@vitest/eslint-plugin](https://github.com/vitest-dev/eslint-plugin-vitest)                |
+| `test/*`   | `no-only-tests/*`      | [eslint-plugin-no-only-tests](https://github.com/levibuzolic/eslint-plugin-no-only-tests)  |
 
 When you want to override rules, or disable them inline, you need to update to the new prefix:
 

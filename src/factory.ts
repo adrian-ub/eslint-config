@@ -1,8 +1,9 @@
 import type { Linter } from 'eslint'
 import type { RuleOptions } from './typegen'
-import type { Awaitable, ConfigNames, OptionsConfig, TypedFlatConfigItem } from './types'
 
+import type { Awaitable, ConfigNames, OptionsConfig, TypedFlatConfigItem } from './types'
 import { FlatConfigComposer } from 'eslint-flat-config-utils'
+
 import { isPackageExists } from 'local-pkg'
 import {
   astro,
@@ -14,21 +15,25 @@ import {
   javascript,
   jsdoc,
   jsonc,
+  jsx,
   markdown,
   node,
   perfectionist,
+  react,
+  solid,
   sortPackageJson,
   sortTsconfig,
   stylistic,
+  svelte,
   test,
   toml,
   typescript,
   unicorn,
   unocss,
+  vue,
   yaml,
 } from './configs'
 import { formatters } from './configs/formatters'
-
 import { regexp } from './configs/regexp'
 import { interopDefault, isInEditorEnv } from './utils'
 
@@ -50,7 +55,6 @@ export const defaultPluginRenaming = {
 
   '@stylistic': 'style',
   '@typescript-eslint': 'ts',
-  'antfu': 'adrianub',
   'import-x': 'import',
   'n': 'node',
   'vitest': 'test',
@@ -78,10 +82,14 @@ export function adrianub(
     componentExts = [],
     gitignore: enableGitignore = true,
     jsx: enableJsx = true,
+    react: enableReact = false,
     regexp: enableRegexp = true,
+    solid: enableSolid = false,
+    svelte: enableSvelte = false,
     typescript: enableTypeScript = isPackageExists('typescript'),
     unicorn: enableUnicorn = true,
     unocss: enableUnoCSS = false,
+    vue: enableVue = false,
   } = options
 
   let isInEditor = options.isInEditor
@@ -106,19 +114,20 @@ export function adrianub(
   if (enableGitignore) {
     if (typeof enableGitignore !== 'boolean') {
       configs.push(interopDefault(import('eslint-config-flat-gitignore')).then(r => [r({
-        name: 'adrianub/gitignore',
+        name: 'antfu/gitignore',
         ...enableGitignore,
       })]))
     }
     else {
       configs.push(interopDefault(import('eslint-config-flat-gitignore')).then(r => [r({
-        name: 'adrianub/gitignore',
+        name: 'antfu/gitignore',
         strict: false,
       })]))
     }
   }
 
   const typescriptOptions = resolveSubOptions(options, 'typescript')
+  const tsconfigPath = 'tsconfigPath' in typescriptOptions ? typescriptOptions.tsconfigPath : undefined
 
   // Base configs
   configs.push(
@@ -143,6 +152,14 @@ export function adrianub(
 
   if (enableUnicorn) {
     configs.push(unicorn(enableUnicorn === true ? {} : enableUnicorn))
+  }
+
+  if (enableVue) {
+    componentExts.push('vue')
+  }
+
+  if (enableJsx) {
+    configs.push(jsx())
   }
 
   if (enableTypeScript) {
@@ -170,6 +187,39 @@ export function adrianub(
     configs.push(test({
       isInEditor,
       overrides: getOverrides(options, 'test'),
+    }))
+  }
+
+  if (enableVue) {
+    configs.push(vue({
+      ...resolveSubOptions(options, 'vue'),
+      overrides: getOverrides(options, 'vue'),
+      stylistic: stylisticOptions,
+      typescript: !!enableTypeScript,
+    }))
+  }
+
+  if (enableReact) {
+    configs.push(react({
+      ...typescriptOptions,
+      overrides: getOverrides(options, 'react'),
+      tsconfigPath,
+    }))
+  }
+
+  if (enableSolid) {
+    configs.push(solid({
+      overrides: getOverrides(options, 'solid'),
+      tsconfigPath,
+      typescript: !!enableTypeScript,
+    }))
+  }
+
+  if (enableSvelte) {
+    configs.push(svelte({
+      overrides: getOverrides(options, 'svelte'),
+      stylistic: stylisticOptions,
+      typescript: !!enableTypeScript,
     }))
   }
 
@@ -259,6 +309,17 @@ export function adrianub(
   if (autoRenamePlugins) {
     composer = composer
       .renamePlugins(defaultPluginRenaming)
+  }
+
+  if (isInEditor) {
+    composer = composer
+      .disableRulesFix([
+        'unused-imports/no-unused-imports',
+        'test/no-only-tests',
+        'prefer-const',
+      ], {
+        builtinRules: () => import(['eslint', 'use-at-your-own-risk'].join('/')).then(r => r.builtinRules),
+      })
   }
 
   return composer
